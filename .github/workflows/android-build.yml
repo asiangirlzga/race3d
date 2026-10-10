@@ -1,1 +1,61 @@
+name: Build TV Racer APK
 
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Finds the project even if the zip was extracted into a sub-folder of the repo
+      - name: Locate project folder
+        run: |
+          SETTINGS=$(find . -maxdepth 3 -name settings.gradle -not -path './.git/*' | head -1)
+          if [ -z "$SETTINGS" ]; then
+            echo "settings.gradle not found. Files in repo:"; ls -la; exit 1
+          fi
+          DIR=$(dirname "$SETTINGS")
+          echo "PROJECT_DIR=$DIR" >> "$GITHUB_ENV"
+          echo "Project folder: $DIR"
+          ls -la "$DIR"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      # Point the in-app theme download at THIS repository
+      - name: Set theme download URL
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: sed -i "s#YOUR_USER/YOUR_REPO#${GITHUB_REPOSITORY}#g" app/src/main/res/values/strings.xml
+
+      - name: Build release APK
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: gradle assembleRelease --no-daemon --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TvRacerLite-apk
+          path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/release/TvRacerLite.apk
+          if-no-files-found: error
+
+      # Tag a version (git tag v1.0 && git push --tags) to publish the APK as a GitHub Release
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/release/TvRacerLite.apk
