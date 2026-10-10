@@ -1,1 +1,55 @@
-
+{
+  "version": 1,
+  "themes": [
+    {
+      "name": "Sunny Day",
+      "skyTop": "#3A8DDE", "skyBottom": "#BFE6FF", "sun": "#FFF3B0", "mountain": "#6D8CA8",
+      "grassA": "#2E9B4F", "grassB": "#288A46",
+      "roadA": "#5A5A5A", "roadB": "#626262",
+      "rumbleA": "#FFFFFF", "rumbleB": "#D32F2F",
+      "lane": "#FFFFFF", "fog": "#BFE6FF",
+      "props": "round", "player": "#E53935",
+      "traffic": ["#1E88E5", "#FDD835", "#43A047", "#8E24AA", "#FB8C00"]
+    },
+    {
+      "name": "Sunset Coast",
+      "skyTop": "#5B2A86", "skyBottom": "#FF9A6B", "sun": "#FFD27A", "mountain": "#4A2C5C",
+      "grassA": "#3C8D6E", "grassB": "#357F63",
+      "roadA": "#4A4A55", "roadB": "#52525E",
+      "rumbleA": "#FFFFFF", "rumbleB": "#FF5A5F",
+      "lane": "#FFE08A", "fog": "#FF9A6B",
+      "props": "pine", "player": "#00BCD4",
+      "traffic": ["#FFEB3B", "#E91E63", "#8BC34A", "#FFFFFF", "#FF7043"]
+    },
+    {
+      "name": "Desert Dash",
+      "skyTop": "#F6A04D", "skyBottom": "#FFE0A3", "sun": "#FFFBE6", "mountain": "#B5703A",
+      "grassA": "#E2B66F", "grassB": "#D9AB60",
+      "roadA": "#6B5E55", "roadB": "#746660",
+      "rumbleA": "#FFFFFF", "rumbleB": "#C0392B",
+      "lane": "#FFFFFF", "fog": "#FFE0A3",
+      "props": "cactus", "player": "#D32F2F",
+      "traffic": ["#1565C0", "#2E7D32", "#6A1B9A", "#F5F5F5", "#212121"]
+    },
+    {
+      "name": "Neon Night",
+      "skyTop": "#05051A", "skyBottom": "#2B1055", "sun": "#E8E8FF", "mountain": "#1B1B3A", "stars": true,
+      "grassA": "#0B1F2A", "grassB": "#0A1A24",
+      "roadA": "#26263A", "roadB": "#2C2C44",
+      "rumbleA": "#00E5FF", "rumbleB": "#FF2BD6",
+      "lane": "#00E5FF", "fog": "#2B1055",
+      "props": "lamp", "player": "#FF2BD6",
+      "traffic": ["#00E5FF", "#76FF03", "#FFEA00", "#7C4DFF", "#FF6D00"]
+    },
+    {
+      "name": "Snow Pine",
+      "skyTop": "#7FA8D6", "skyBottom": "#EAF4FF", "sun": "#FFFFFF", "mountain": "#A9BDD6",
+      "grassA": "#F4F8FC", "grassB": "#E6EEF6",
+      "roadA": "#5B6068", "roadB": "#636870",
+      "rumbleA": "#FFFFFF", "rumbleB": "#1E88E5",
+      "lane": "#FFFFFF", "fog": "#EAF4FF",
+      "props": "pine", "player": "#E53935",
+      "traffic": ["#FB8C00", "#43A047", "#212121", "#8E24AA", "#FDD835"]
+    }
+  ]
+}
