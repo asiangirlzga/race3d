@@ -28,6 +28,53 @@ jobs:
           echo "Project folder: $DIR"
           ls -la "$DIR"
 
+      # Self-healing: creates the launcher icon and TV banner if they are missing from the repo
+      - name: Ensure icon and banner exist
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          D=app/src/main/res/drawable
+          mkdir -p "$D"
+          if [ ! -f "$D/ic_launcher.xml" ]; then
+            echo "Creating missing ic_launcher.xml"
+            cat > "$D/ic_launcher.xml" <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="96dp"
+              android:height="96dp"
+              android:viewportWidth="96"
+              android:viewportHeight="96">
+              <path android:fillColor="#1B2A49" android:pathData="M0,0h96v96h-96z" />
+              <path android:fillColor="#444444" android:pathData="M42,30L54,30L84,96L12,96z" />
+              <path android:fillColor="#FFFFFF" android:pathData="M47,34L49,34L50,96L46,96z" />
+              <path android:fillColor="#E53935" android:pathData="M32,66h32v14h-32z" />
+              <path android:fillColor="#B71C1C" android:pathData="M38,54h20l4,12h-28z" />
+              <path android:fillColor="#111111" android:pathData="M30,76h6v8h-6zM60,76h6v8h-6z" />
+          </vector>
+          EOF
+          fi
+          if [ ! -f "$D/banner.xml" ]; then
+            echo "Creating missing banner.xml"
+            cat > "$D/banner.xml" <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="320dp"
+              android:height="180dp"
+              android:viewportWidth="320"
+              android:viewportHeight="180">
+              <path android:fillColor="#FF9A6B" android:pathData="M0,0h320v90h-320z" />
+              <path android:fillColor="#2E9B4F" android:pathData="M0,90h320v90h-320z" />
+              <path android:fillColor="#FFF3B0" android:pathData="M230,40a18,18 0 1,0 0.1,0z" />
+              <path android:fillColor="#4A4A55" android:pathData="M145,90L175,90L290,180L30,180z" />
+              <path android:fillColor="#FFFFFF" android:pathData="M158,92L162,92L168,180L152,180z" />
+              <path android:fillColor="#E53935" android:pathData="M135,138h50v22h-50z" />
+              <path android:fillColor="#B71C1C" android:pathData="M145,118h30l8,20h-46z" />
+              <path android:fillColor="#111111" android:pathData="M130,152h12v14h-12zM178,152h12v14h-12z" />
+              <path android:fillColor="#FFFFFF" android:pathData="M20,20h80v6h-80zM20,32h56v6h-56z" />
+          </vector>
+          EOF
+          fi
+          ls -la "$D"
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
