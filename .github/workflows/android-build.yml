@@ -44,7 +44,26 @@ jobs:
 
       - name: Build release APK
         working-directory: ${{ env.PROJECT_DIR }}
-        run: gradle assembleRelease --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle assembleRelease --no-daemon --console=plain 2>&1 | tee build.log
+
+      # Prints ONLY the useful error lines (short) when the build fails
+      - name: Show build errors
+        if: failure()
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          echo "================ BUILD ERROR SUMMARY ================"
+          grep -n -E "error:|warning: \[|What went wrong|Execution failed|Caused by|AAPT|R8|Could not|not found|cannot find symbol" build.log | head -40 || true
+          echo "-----------------------------------------------------"
+          sed -n '/What went wrong/,/Try:/p' build.log | head -30 || true
+
+      - name: Upload build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: ${{ env.PROJECT_DIR }}/build.log
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
