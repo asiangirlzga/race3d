@@ -121,7 +121,8 @@ jobs:
 
       # Tag a version (git tag v1.0 && git push --tags) to publish the APK as a GitHub Release
       - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: wifi-${{ github.run_number }}
+          name: Wi-Fi build ${{ github.run_number }}
           files: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/release/TvRacerLite.apk
